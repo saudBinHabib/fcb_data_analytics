@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from pydantic import BaseModel as PydanticBaseModel
-from pydantic import Field, field_validator
 
 
 class PeriodModel(PydanticBaseModel):
