@@ -1,5 +1,5 @@
-from sqlalchemy import (BigInteger, Boolean, Column, DateTime, Enum, Float,
-                        ForeignKey, Integer, String)
+from sqlalchemy import (BigInteger, Boolean, Column, DateTime, Float, Integer,
+                        String)
 from sqlalchemy.orm import relationship
 
 from fcb_data_providers.database_models import BaseModel

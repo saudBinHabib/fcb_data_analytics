@@ -1,5 +1,4 @@
-from sqlalchemy import (JSON, Boolean, Column, DateTime, Enum, Float,
-                        ForeignKey, Integer, String)
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
 
 from fcb_data_providers.database_models import BaseModel
