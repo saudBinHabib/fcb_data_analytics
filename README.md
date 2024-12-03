@@ -52,12 +52,12 @@ Make sure you have the following installed:
 - Docker
 - pre-commit hooks
 
-## Using `src.fcb_data_analytics.providers` Classes
+## Using `fcb_data_providers` package
 
-The `src.fcb_data_analytics.providers` module contains classes to read data from various data providers. Here's an example of how to use these classes:
+The `src.fcb_data_providers.providers` module contains classes to read data from various data providers. Here's an example of how to use these classes:
 
 ```python
-from src.fcb_data_analytics.providers import StatsPerformProvider
+from src.fcb_data_providers.providers import StatsPerformProvider
 
 # StatsPerformProvider needs DATABASE_URL, and Data directory as parameters, for which you can either crete variables or get that from your environment variables. e.g.
 
