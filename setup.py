@@ -31,7 +31,7 @@ setup(
     name="fcb_data_providers",
     version=__version__,
     author="Saud Bin Habib",
-    author_email="saud.habib@alexanderthamm.com",
+    author_email="saud.bin.habib@outlook.com",
     description="This is a python package to handle the data providers for the scouting models",  # noqa
     url="",
     packages=find_packages("src"),
