@@ -1,0 +1,14 @@
+# Development dependencies for data analysis project
+
+black==24.10.0
+debugpy==1.8.9
+flake8==7.1.1
+ipdb==0.13.13
+ipykernel==6.29.5
+ipython==8.29.0
+
+isort==5.13.2
+virtualenv==20.28.0
+pre-commit~=2.20
+
+-r prod.txt
