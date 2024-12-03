@@ -27,19 +27,6 @@ def get_prod_requirements():
     return requirements
 
 
-# def get_prod_requirements():
-#     """Read all the prod requirements from the requirements directory."""
-#     requirements = []
-#     requirements_dir = os.path.join(os.path.dirname(__file__), "requirements")
-#     prod_requirements_file = os.path.join(requirements_dir, "dev.txt")
-
-#     if os.path.isfile(prod_requirements_file):
-#         with open(prod_requirements_file, "r") as f:
-#             requirements = f.read().splitlines()
-
-#     return requirements
-
-
 setup(
     name="fcb_data_providers",
     version=__version__,
