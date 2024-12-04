@@ -57,7 +57,7 @@ Make sure you have the following installed:
 The `src.fcb_data_providers.providers` module contains classes to read data from various data providers. Here's an example of how to use these classes:
 
 ```python
-from src.fcb_data_providers.providers import StatsPerformProvider
+from fcb_data_providers.providers import StatsPerformProvider
 
 # StatsPerformProvider needs DATABASE_URL, and Data directory as parameters, for which you can either crete variables or get that from your environment variables. e.g.
 
@@ -79,7 +79,7 @@ stats_perform.logger.info(f"Match stats files: {match_stat_files}")
 stats_perform.process_match_event_data(file_path_list=match_event_files)
 
 # You can process match stats data like this.
-stats_perform.process_match_stats_data(file_path_list=match_event_files)
+stats_perform.process_match_stats_data(file_path_list=match_stat_files)
 
 # Or if you want to do complete processing of the events, and stats data, you can use following.
 # This function will read events, and stats file from data_dir, and will do complete processing.
