@@ -55,6 +55,26 @@ class StatsPerformProvider:
         """
         return pd.read_json(file_path)
 
+    def store_model_in_database(self, model, model_name, pydantic_model):
+        """
+        Store the model data in the database.
+
+        model: BaseModel: The model class.
+        model_name: str: The model name.
+        pydantic_model: Pydantic Model: The model data.
+
+        return: None
+        """
+        try:
+            self.session.add(model(**pydantic_model.model_dump()))
+            self.session.commit()
+            self.logger.info(f"Stored {model_name} data")
+        except Exception as e:
+            self.logger.error(
+                f"Error storing model data for model: {model_name}. Error: {e}"
+            )
+            self.session.rollback()
+
     def store_match_data(self, match_id: str, match_details: dict) -> None:
         """
         Store the match data.
@@ -74,14 +94,7 @@ class StatsPerformProvider:
             match_length_min=match_details["matchLengthMin"],
             match_length_sec=match_details["matchLengthSec"],
         )
-        try:
-            self.session.add(Match(**match_model.model_dump()))
-            self.session.commit()
-        except Exception as e:
-            self.logger.error(
-                f"Error storing match data for match id: {match_id}. Error: {e}"
-            )
-            self.session.rollback()
+        self.store_model_in_database(Match, "Match", match_model)
 
     def store_team_data(self, teams_data: List[dict]) -> None:
         """
@@ -99,14 +112,7 @@ class StatsPerformProvider:
                 official_name=team_details.get("officialName"),
                 code=team_details.get("code"),
             )
-            try:
-                self.session.add(Team(**team_model.model_dump()))
-                self.session.commit()
-            except Exception as e:
-                self.logger.error(
-                    f"Error storing Team data for team id: {team_details.get('id')}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Team, "Team", team_model)
 
     def store_period_data(self, match_id: str, match_data: dict) -> None:
         """
@@ -125,14 +131,7 @@ class StatsPerformProvider:
                 length_min=period.get("lengthMin"),
                 length_sec=period.get("lengthSec"),
             )
-            try:
-                self.session.add(Period(**period_model.model_dump()))
-                self.session.commit()
-            except Exception as e:
-                self.logger.error(
-                    f"Error storing Period data for Match id: {match_id}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Period, "Period", period_model)
 
     def store_score_data(self, match_id: str, match_data: dict) -> None:
         """
@@ -153,14 +152,7 @@ class StatsPerformProvider:
             total_home=scores.get("total").get("home"),
             total_away=scores.get("total").get("away"),
         )
-        try:
-            self.session.add(Score(**score_model.model_dump()))
-            self.session.commit()
-        except Exception as e:
-            self.logger.error(
-                f"Error storing Score data for Match id: {match_id}. Error: {e}"
-            )
-            self.session.rollback()
+        self.store_model_in_database(Score, "Score", score_model)
 
     def store_event_quailifier_data(
         self, event_id: int, qualifiers_data: List[dict]
@@ -174,22 +166,13 @@ class StatsPerformProvider:
         return: None
         """
         for qualifier in qualifiers_data:
-
             qualifier_model = QualifierModel(
                 q_id=qualifier.get("id"),
                 qualifier_id=qualifier.get("qualifierId"),
                 value=qualifier.get("value"),
                 event_id=event_id,
             )
-            try:
-                self.session.add(Qualifier(**qualifier_model.model_dump()))
-                self.session.commit()
-            except Exception as e:
-                # import ipdb; ipdb.set_trace()
-                self.logger.error(
-                    f"Error storing Qualifier data for Event id: {event_id}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Qualifier, "Qualifier", qualifier_model)
 
     def store_event_data(self, match_id: str, events_data: List[dict]) -> None:
         """
@@ -218,17 +201,9 @@ class StatsPerformProvider:
                 player_id=event.get("playerId"),
                 team_id=event.get("contestantId"),
             )
-            try:
-                self.session.add(Event(**event_model.model_dump()))
-                self.session.commit()
-                qualifier_data = event.get("qualifier")
-
-                self.store_event_quailifier_data(event_id, qualifier_data)
-            except Exception as e:
-                self.logger.error(
-                    f"Error storing Event data for Match id: {match_id}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Event, "Event", event_model)
+            qualifier_data = event.get("qualifier")
+            self.store_event_quailifier_data(event_id, qualifier_data)
 
     def store_player_data(self, lineups: List[dict]) -> None:
         """
@@ -256,15 +231,7 @@ class StatsPerformProvider:
                     is_captain=player.get("captain"),
                     team_id=team_id,
                 )
-                try:
-                    self.session.add(Player(**player_model.model_dump()))
-                    self.session.commit()
-
-                except Exception as e:
-                    self.logger.error(
-                        f"Error storing Player data for Player id: {player.get('id')}. Error: {e}"
-                    )
-                    self.session.rollback()
+                self.store_model_in_database(Player, "Player", player_model)
 
     def store_goal_data(self, match_id: str, goals_data: List[dict]) -> None:
         """
@@ -293,15 +260,7 @@ class StatsPerformProvider:
                 home_score=goal.get("homeScore"),
                 away_score=goal.get("awayScore"),
             )
-            try:
-                self.session.add(Goal(**goal_model.model_dump()))
-                self.session.commit()
-                self.logger.info(f"Goal data stored for match id: {match_id}")
-            except Exception as e:
-                self.logger.error(
-                    f"Error storing Goal data for Match id: {match_id}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Goal, "Goal", goal_model)
 
     def store_card_data(self, match_id: str, cards_data: List[dict]) -> None:
         """
@@ -327,15 +286,7 @@ class StatsPerformProvider:
                 opta_event_id=card.get("optaEventId"),
                 card_reason=card.get("cardReason"),
             )
-            try:
-                self.session.add(Card(**card_model.model_dump()))
-                self.session.commit()
-                self.logger.info(f"Card data stored for match id: {match_id}")
-            except Exception as e:
-                self.logger.error(
-                    f"Error storing Card data for Match id: {match_id}. Error: {e}"
-                )
-                self.session.rollback()
+            self.store_model_in_database(Card, "Card", card_model)
 
     def process_event_data(self, df_events: pd.DataFrame) -> None:
         """
