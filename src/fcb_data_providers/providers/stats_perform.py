@@ -4,6 +4,7 @@ from typing import List
 import pandas as pd
 from dotenv import load_dotenv
 
+from fcb_data_providers.create_match_View import create_match_detail_view
 from fcb_data_providers.database import Database
 from fcb_data_providers.database_models import (Card, Event, Goal, Match,
                                                 Period, Player, Qualifier,
@@ -466,3 +467,5 @@ class StatsPerformProvider:
         if match_stats_files:
             self.logger.info(" Processing match stats data.")
             self.process_match_stats_data(match_stats_files)
+        # create the match_detail view.
+        create_match_detail_view(self.session, self.logger)
