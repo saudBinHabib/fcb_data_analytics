@@ -1,7 +1,7 @@
 from logging import Logger
 
 from sqlalchemy import text
-from sqlalchemy.sssion import Session
+from sqlalchemy.orm.session import Session
 
 
 def create_match_detail_view(session: Session, logger: Logger) -> bool:
