@@ -16,8 +16,7 @@ def create_match_detail_view(session: Session, logger: Logger) -> bool:
         bool: _description_
     """
 
-    CREATE_MATCH_DETAIL_VIEW_QUERY = text
-    (
+    CREATE_MATCH_DETAIL_VIEW_QUERY = text(
         """
             CREATE OR REPLACE VIEW match_details AS
             SELECT
@@ -46,5 +45,6 @@ def create_match_detail_view(session: Session, logger: Logger) -> bool:
         logger.info("Match details view created successfully")
         return True
     except Exception as exc:
+        session.rollback()
         logger.error(f"Error while creating match details view: {exc}")
         return False
