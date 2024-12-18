@@ -92,8 +92,8 @@ class StatsPerformProvider:
             home_team_id=match_details.get("home_team_id"),
             away_team_id=match_details.get("away_team_id"),
             winner=match_details.get("winner"),
-            match_length_min=match_details["matchLengthMin"],
-            match_length_sec=match_details["matchLengthSec"],
+            match_length_min=match_details.get("matchLengthMin"),
+            match_length_sec=match_details.get("matchLengthSec"),
         )
         self.store_model_in_database(Match, "Match", match_model)
 
